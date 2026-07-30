@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule — Cloverdale Rodeo &amp; Country Fair Concept</title>
+<meta name="description" content="Concept: a mobile-first, filterable Schedule of Events powered by one central data model for artists, attractions, venues and rodeo. Unaffiliated concept by Midnight Space.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='6' width='26' height='20' rx='3' fill='%23c1272d'/%3E%3Ctext x='16' y='21' font-family='Georgia,serif' font-weight='bold' font-size='13' fill='%23faf5ec' text-anchor='middle'%3ECR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#221611; --ink-72:rgba(34,22,17,.76); --ink-56:rgba(34,22,17,.6);
+  --paper:#faf5ec; --sand:#f0e4d0;
+  --night:#1c1410; --night-ink:#f4ede2; --night-ink-70:rgba(244,237,226,.75);
+  --red:#c1272d; --red-deep:#9a1e23; --red-night:#e0555a;
+  --gold:#d99b2f;
+  --radius:999px; --container:1180px;
+  --ease:cubic-bezier(0.625,0.05,0,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Hanken Grotesk",-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:clip}
+::selection{background:var(--red);color:#fff}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 24px}
+.disp{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-weight:800;letter-spacing:-0.015em;line-height:1.02}
+.t-display{font-size:clamp(2rem,4.2vw,3.3rem);text-transform:uppercase;line-height:1.04}
+.t-title{font-size:clamp(1.3rem,2.2vw,1.75rem);line-height:1.12}
+.t-lead{font-size:clamp(1.08rem,1.5vw,1.26rem);color:var(--ink-72);line-height:1.55}
+.t-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.t-source{font-size:.82rem;color:var(--ink-56);line-height:1.5}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:200;background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:6px;transition:top .2s;text-decoration:none;font-weight:600}
+.skip-link:focus{top:1rem}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.concept-note{background:var(--night);color:var(--night-ink-70);text-align:center;font-size:.8rem;padding:.45rem 1rem}
+.concept-note a{color:var(--night-ink)}
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,245,236,.88);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid rgba(34,22,17,.1)}
+.nav-inner{display:flex;align-items:center;gap:1.8rem;height:70px;max-width:var(--container);margin:0 auto;padding:0 24px}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand-cr{display:grid;place-items:center;width:38px;height:30px;background:var(--red);border-radius:6px;color:#fff;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.02em}
+.brand-word{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.06rem;line-height:1.05;text-transform:uppercase;letter-spacing:.01em}
+.brand-word small{display:block;font-family:"Hanken Grotesk",sans-serif;font-weight:600;font-size:.58rem;letter-spacing:.14em;color:var(--red);margin-top:2px}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links>li{display:flex;align-items:center}
+.nav-links a{color:var(--ink-72);text-decoration:none;font-size:.94rem;font-weight:600;transition:color .2s}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--ink)}
+.nav-links>li>a[aria-current="page"]{box-shadow:inset 0 -2px 0 var(--red)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:var(--radius);text-decoration:none;font-weight:700;border:none;cursor:pointer;font-family:"Hanken Grotesk",sans-serif;transition:transform .18s var(--ease),background .25s,color .25s;white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--red);color:#fff;padding:.7rem 1.5rem;font-size:.94rem}
+.btn-primary:hover{background:var(--red-deep)}
+.btn-quiet{color:var(--red);background:none;padding:.5rem .2rem;font-size:.95rem}
+.btn-quiet::after{content:"→";margin-left:.15rem;transition:transform .3s var(--ease)}
+.btn-quiet:hover::after{transform:translateX(4px)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.3s var(--ease)}
+section{scroll-margin-top:86px}
+.page-head{padding:4.5rem 0 2rem}
+.page-head h1{margin-top:.8rem;max-width:17ch}
+.page-head .t-lead{margin-top:1.2rem;max-width:36em}
+.demo-note{display:inline-block;background:var(--sand);border-radius:8px;padding:.5rem .9rem;font-size:.8rem;color:var(--ink-56);margin-top:1.2rem}
+.footer{background:var(--night);color:var(--night-ink-70);padding:4.5rem 0 2.5rem}
+.footer a{color:var(--night-ink-70);text-decoration:none}
+.footer a:hover{color:var(--night-ink)}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2.5rem;max-width:var(--container);margin:0 auto;padding:0 24px}
+.footer .brand{color:var(--night-ink)}
+.footer .brand-word small{color:var(--red-night)}
+.footer h4{color:var(--night-ink);font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+.footer ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;font-size:.92rem}
+.footer-mission{margin-top:1.1rem;font-size:.92rem;max-width:28em;line-height:1.6}
+.footer-land{max-width:var(--container);margin:3rem auto 0;padding:0 24px;font-size:.85rem;color:rgba(244,237,226,.6);max-width:60em}
+.footer-legal{max-width:var(--container);margin:2rem auto 0;padding:1.8rem 24px 0;border-top:1px solid rgba(244,237,226,.14);display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-size:.8rem;color:rgba(244,237,226,.55)}
+.footer-legal a{color:rgba(244,237,226,.55)}
+.rv{opacity:1}
+.motion .rv{opacity:0;transform:translateY(24px)}
+.motion .rv.in{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+
+/* ---------- page-specific: schedule ---------- */
+.chip{border:2px solid rgba(34,22,17,.22);background:none;border-radius:var(--radius);padding:.45rem 1.05rem;font:inherit;font-size:.88rem;font-weight:600;color:var(--ink-72);cursor:pointer;transition:all .22s var(--ease)}
+.chip:hover{border-color:var(--red);color:var(--red)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.filters{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;padding:1.4rem 0 .4rem}
+.filters .lbl{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-56);margin-right:.3rem;width:4.2em}
+.count-line{margin-left:auto;font-size:.86rem;color:var(--ink-56)}
+.sched{list-style:none;margin:1.6rem 0 0;border-top:1px solid rgba(34,22,17,.14)}
+.sched li{display:grid;grid-template-columns:6.5em 1fr auto;gap:1.6rem;align-items:center;padding:1.15rem .2rem;border-bottom:1px solid rgba(34,22,17,.14)}
+.sched .tm{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.05rem}
+.sched .tm small{display:block;font-family:"Hanken Grotesk",sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-56)}
+.sched h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.15rem;line-height:1.15}
+.sched p{font-size:.9rem;color:var(--ink-72);margin-top:.2rem;max-width:52em}
+.sched .meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:var(--radius);padding:.18rem .7rem}
+.tag-venue{color:var(--red);border:1.5px solid rgba(193,39,45,.4)}
+.tag-type{color:var(--ink-56);border:1.5px solid rgba(34,22,17,.22)}
+.tag-ticket{background:var(--ink);color:var(--paper)}
+.sched .day-pill{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-56);white-space:nowrap}
+.sched li[hidden]{display:none}
+.empty{padding:3rem .2rem;color:var(--ink-56);display:none}
+.venues{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.4rem}
+.venue{background:#fff;border:1px solid rgba(34,22,17,.14);border-radius:14px;padding:1.4rem 1.5rem}
+.venue h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.15rem;text-transform:uppercase}
+.venue p{font-size:.9rem;color:var(--ink-72);margin-top:.4rem}
+.venue .vt{display:inline-block;margin-top:.8rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:var(--radius);padding:.2rem .75rem}
+.venue .vt.req{background:var(--ink);color:var(--paper)}
+.venue .vt.free{border:1.5px solid rgba(34,22,17,.25);color:var(--ink-56)}
+.venue .vcount{margin-top:.7rem;font-size:.82rem;color:var(--red);font-weight:700}
+.how{background:var(--night);color:var(--night-ink)}
+.how .t-eyebrow{color:var(--red-night)}
+.how h2{color:#fff}
+.how p{color:var(--night-ink-70)}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem}
+.how-card{background:rgba(244,237,226,.06);border:1px solid rgba(244,237,226,.14);border-radius:14px;padding:1.4rem 1.5rem}
+.how-card b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.02rem;color:#fff;margin-bottom:.4rem;text-transform:uppercase}
+.how-card p{font-size:.88rem;line-height:1.55}
+@media (max-width:960px){
+  .nav-links{position:absolute;top:70px;left:0;right:0;background:var(--paper);flex-direction:column;gap:0;padding:1.2rem 24px 2rem;border-bottom:1px solid rgba(34,22,17,.1);display:none;max-height:calc(100vh - 70px);overflow-y:auto}
+  .nav-links.open{display:flex}
+  .nav-links>li{display:block}
+  .nav-links>li>a{display:block;padding:.9rem 0;font-size:1.15rem;font-weight:700;color:var(--ink)}
+  .nav-toggle{display:block}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-inner{gap:.9rem;padding:0 16px}
+  .brand-word small{display:none}
+  .nav .btn-primary{padding:.6rem 1.05rem;font-size:.85rem}
+  .sched li{grid-template-columns:1fr;gap:.35rem}
+  .sched .day-pill{order:-1}
+  .count-line{margin-left:0;width:100%}
+  .venues,.how-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){.footer-top{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion .rv{opacity:1;transform:none}*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<p class="concept-note">Website-redesign concept by Midnight Space — not affiliated with or endorsed by the Cloverdale Rodeo and Exhibition Association · <a href="index.html">Back to the homepage concept</a></p>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="Cloverdale Rodeo and Country Fair — home">
+      <span class="brand-cr" aria-hidden="true">CR</span>
+      <span class="brand-word">Cloverdale<small>Rodeo &amp; Country Fair</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="rodeo.html">Rodeo</a></li>
+        <li><a href="fair.html">Fair &amp; Music</a></li>
+        <li><a href="schedule.html" aria-current="page">Schedule</a></li>
+        <li><a href="plan.html">Plan your visit</a></li>
+        <li><a href="news.html">News</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary" href="plan.html#tickets">Get tickets</a>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head">
+    <div class="wrap">
+      <p class="t-eyebrow rv">Schedule of events · May 20 – 24, 2027</p>
+      <h1 class="disp t-display rv">Five days. Every stage. One schedule.</h1>
+      <p class="t-lead rv">Filter by day, venue, or the kind of country you're after. Every entry below comes from one central data model — the same records that power performer pages and venue listings.</p>
+      <span class="demo-note rv">Concept demo — representative entries, not the announced 2027 lineup. In the build, CREA staff enter each artist or attraction once and it appears here, on its performer page, and on its venue listing automatically.</span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="filters" role="group" aria-label="Filter by day">
+      <span class="lbl">Day</span>
+      <button class="chip" data-f="day" data-v="all" aria-pressed="true">All days</button>
+      <button class="chip" data-f="day" data-v="thu" aria-pressed="false">Thu 20</button>
+      <button class="chip" data-f="day" data-v="fri" aria-pressed="false">Fri 21</button>
+      <button class="chip" data-f="day" data-v="sat" aria-pressed="false">Sat 22</button>
+      <button class="chip" data-f="day" data-v="sun" aria-pressed="false">Sun 23</button>
+      <button class="chip" data-f="day" data-v="mon" aria-pressed="false">Mon 24</button>
+      <span class="count-line" id="count" role="status" aria-live="polite"></span>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by type">
+      <span class="lbl">Type</span>
+      <button class="chip" data-f="type" data-v="all" aria-pressed="true">Everything</button>
+      <button class="chip" data-f="type" data-v="rodeo" aria-pressed="false">Rodeo</button>
+      <button class="chip" data-f="type" data-v="music" aria-pressed="false">Music</button>
+      <button class="chip" data-f="type" data-v="family" aria-pressed="false">Family</button>
+      <button class="chip" data-f="type" data-v="attraction" aria-pressed="false">Attractions</button>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by venue">
+      <span class="lbl">Venue</span>
+      <button class="chip" data-f="venue" data-v="all" aria-pressed="true">All venues</button>
+      <button class="chip" data-f="venue" data-v="stetson" aria-pressed="false">Stetson Bowl</button>
+      <button class="chip" data-f="venue" data-v="jamie" aria-pressed="false">Jamie Rogers Arena</button>
+      <button class="chip" data-f="venue" data-v="mainstage" aria-pressed="false">CR Main Stage</button>
+      <button class="chip" data-f="venue" data-v="longhorn" aria-pressed="false">Longhorn Saloon</button>
+      <button class="chip" data-f="venue" data-v="hops" aria-pressed="false">Hops &amp; Vines</button>
+      <button class="chip" data-f="venue" data-v="village" aria-pressed="false">Indigenous Village</button>
+      <button class="chip" data-f="venue" data-v="midway" aria-pressed="false">Midway &amp; Grounds</button>
+    </div>
+
+    <ul class="sched" id="sched"></ul>
+    <p class="empty" id="empty">Nothing matches those filters — try a broader day or venue.</p>
+  </div>
+
+  <!-- VENUES from the same model -->
+  <section class="pad" style="padding:5rem 0 6rem" aria-labelledby="venues-h">
+    <div class="wrap">
+      <p class="t-eyebrow rv">Venues</p>
+      <h2 class="disp t-display rv" id="venues-h" style="font-size:clamp(1.7rem,3.4vw,2.6rem)">Where it all happens.</h2>
+      <p class="t-source rv" style="margin-top:.8rem;max-width:52em">Rendered from the same data model as the schedule above — one record per venue, including its ticket requirement, populates both views.</p>
+      <div class="venues" id="venues"></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (for evaluators) -->
+  <section class="how" style="padding:6rem 0" aria-labelledby="how-h">
+    <div class="wrap">
+      <p class="t-eyebrow rv">Under the hood — for the CREA team</p>
+      <h2 class="disp t-display rv" id="how-h" style="font-size:clamp(1.7rem,3.4vw,2.6rem)">Enter it once. It shows up everywhere.</h2>
+      <div class="how-grid">
+        <div class="how-card rv"><b>One source of truth</b><p>Artists, attractions, venues and rodeo performances are single records with times and taxonomy terms. This page, performer pages, and venue listings are all views of the same data — no duplicate entry, no drift.</p></div>
+        <div class="how-card rv"><b>Filterable by design</b><p>Each record carries day, venue, and type terms. Add a record in the CMS and it is instantly filterable here — the exact behaviour this demo implements in the browser.</p></div>
+        <div class="how-card rv"><b>Season-aware</b><p>Records can carry in-season and off-season versions with scheduled publication, so the site flips between event mode and year-round mode without rebuilding pages.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <a class="brand" href="index.html" aria-label="Cloverdale Rodeo and Country Fair — home">
+        <span class="brand-cr" aria-hidden="true">CR</span>
+        <span class="brand-word">Cloverdale<small>Rodeo &amp; Country Fair</small></span>
+      </a>
+      <p class="footer-mission">The Cloverdale Rodeo and Exhibition Association — a volunteer-run non-profit delivering an original kind of country since 1888.</p>
+    </div>
+    <nav aria-label="Explore"><h4>Explore</h4><ul><li><a href="rodeo.html">Rodeo</a></li><li><a href="fair.html">Fair &amp; Music</a></li><li><a href="schedule.html">Schedule</a></li><li><a href="news.html">News</a></li></ul></nav>
+    <nav aria-label="Plan"><h4>Plan</h4><ul><li><a href="plan.html">Plan your visit</a></li><li><a href="plan.html#tickets">Tickets</a></li><li><a href="plan.html#faq">FAQs</a></li><li><a href="plan.html#getting-here">Getting here</a></li></ul></nav>
+    <nav aria-label="More"><h4>More</h4><ul><li><a href="news.html#get-involved">Volunteer</a></li><li><a href="news.html#get-involved">Sponsorship</a></li><li><a href="credits.html">Image credits</a></li></ul></nav>
+  </div>
+  <p class="footer-land">The Cloverdale Fairgrounds sit on the unceded traditional territory of the Semiahmoo, Katzie, and Kwantlen First Nations.</p>
+  <div class="footer-legal">
+    <p>© 2026 Cloverdale Rodeo and Exhibition Association · Est. 1888 · Cloverdale Fairgrounds, Surrey, BC</p>
+    <p>Concept by <a href="https://midnightspaceconsultancy.com">Midnight Space</a> — not affiliated with or endorsed by CREA.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
+<script>
+const toggle=document.querySelector('.nav-toggle'),links=document.getElementById('nav-links');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(o));});
+links.addEventListener('click',e=>{if(e.target.closest('a')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus();}});
+
+/* =====================================================================
+   THE CENTRAL DATA MODEL — one set of records powers the schedule list,
+   the venue cards, and the filters. In production these are CMS content
+   types (Venue, Artist, Attraction, Rodeo Performance) with taxonomy.
+   Entries are representative, not the announced 2027 lineup.
+   ===================================================================== */
+const VENUES={
+  stetson:{name:'Stetson Bowl',blurb:"The main arena. BC's biggest professional rodeo runs here every afternoon.",ticket:true},
+  jamie:{name:'Jamie Rogers Arena',blurb:'Bull riding, FMX and high-energy arena shows.',ticket:true},
+  mainstage:{name:'CR Main Stage',blurb:'Headline country under the open sky, presented in the heart of the grounds.',ticket:false},
+  longhorn:{name:'Longhorn Saloon',blurb:'The legendary indoor venue. Big shows, late nights. 19+.',ticket:true},
+  hops:{name:'Hops & Vines Garden',blurb:'Craft drinks, string lights and intimate sets on the garden stage.',ticket:false},
+  village:{name:'Indigenous Village',blurb:'Indigenous cultural programming, artisans and performances all weekend.',ticket:false},
+  midway:{name:'Midway & Grounds',blurb:'Rides, 40+ food trucks, agriculture exhibits and roaming entertainment.',ticket:false},
+};
+const DAYS={thu:'Thu 20',fri:'Fri 21',sat:'Sat 22',sun:'Sun 23',mon:'Mon 24'};
+const TYPES={rodeo:'Rodeo',music:'Music',family:'Family',attraction:'Attraction'};
+const ENTRIES=[
+  {t:'Gates open & midway kickoff',d:'Opening day on the grounds — rides spinning, food trucks firing.',day:'thu',time:'10:00 am',venue:'midway',type:'family'},
+  {t:'Agriculture exhibits open',d:'The roots of the fair since 1888 — livestock, growers and 4-H.',day:'thu',time:'10:00 am',venue:'midway',type:'attraction'},
+  {t:'Indigenous Village welcome',d:'Opening ceremony and artisans market.',day:'thu',time:'12:00 pm',venue:'village',type:'attraction'},
+  {t:'Emerging artist showcase',d:'First sets of the weekend in the garden.',day:'thu',time:'5:00 pm',venue:'hops',type:'music'},
+  {t:'Opening night at the Longhorn',d:'The saloon opens its 2027 run. 19+.',day:'thu',time:'8:00 pm',venue:'longhorn',type:'music'},
+  {t:'Rodeo Performance 1 — Roughstock & Barrels',d:'Bareback, Saddle Bronc, Bull Riding and Ladies Barrel Racing.',day:'fri',time:'1:00 pm',venue:'stetson',type:'rodeo'},
+  {t:'Global FMX show',d:'Freestyle motocross, ramp to sky.',day:'fri',time:'4:00 pm',venue:'jamie',type:'attraction'},
+  {t:'Garden sessions — songwriters round',d:'Stripped-back sets under the string lights.',day:'fri',time:'5:30 pm',venue:'hops',type:'music'},
+  {t:'Friday headliner',d:'Big-name country on the CR Main Stage.',day:'fri',time:'7:30 pm',venue:'mainstage',type:'music'},
+  {t:'Late night at the Longhorn',d:'The party moves indoors. 19+.',day:'fri',time:'9:30 pm',venue:'longhorn',type:'music'},
+  {t:'Family morning on the grounds',d:'Kids shows, farm demonstrations and roaming performers.',day:'sat',time:'10:30 am',venue:'midway',type:'family'},
+  {t:'Indigenous Village performances',d:'Drum, dance and story on the village stage.',day:'sat',time:'12:00 pm',venue:'village',type:'attraction'},
+  {t:'Rodeo Performance 2 — Roughstock & Barrels',d:'Round two in the Stetson Bowl — 96 of the world’s best.',day:'sat',time:'1:00 pm',venue:'stetson',type:'rodeo'},
+  {t:'Bulls & broncs showcase',d:'An arena hour of the rankest stock on the grounds.',day:'sat',time:'4:30 pm',venue:'jamie',type:'rodeo'},
+  {t:'Saturday headliner',d:'The weekend’s biggest show on the CR Main Stage.',day:'sat',time:'7:30 pm',venue:'mainstage',type:'music'},
+  {t:'Drone light show',d:'The sky over the fairgrounds says yeehaw.',day:'sat',time:'9:45 pm',venue:'midway',type:'family'},
+  {t:'Longhorn Saturday sessions',d:'Wall-to-wall country until late. 19+.',day:'sat',time:'10:00 pm',venue:'longhorn',type:'music'},
+  {t:'Cowboy church',d:'A fairgrounds tradition to open the Sunday.',day:'sun',time:'10:00 am',venue:'hops',type:'attraction'},
+  {t:'Rodeo Performance 3 — Roughstock & Barrels',d:'Semi-final day — every ride counts toward the championship.',day:'sun',time:'1:00 pm',venue:'stetson',type:'rodeo'},
+  {t:'Line dancing lessons',d:'Learn the steps before the evening shows.',day:'sun',time:'3:30 pm',venue:'hops',type:'family'},
+  {t:'Sunday headliner',d:'One more big night on the CR Main Stage.',day:'sun',time:'7:30 pm',venue:'mainstage',type:'music'},
+  {t:'Victoria Day family fun',d:'Final-day midway specials and family programming.',day:'mon',time:'10:30 am',venue:'midway',type:'family'},
+  {t:'Championship Sunday — Rodeo Finals',d:'Four champions crowned, $300,000 awarded.',day:'mon',time:'1:00 pm',venue:'stetson',type:'rodeo'},
+  {t:'Champions’ victory lap',d:'The 2027 Cloverdale Rodeo Champions take the arena.',day:'mon',time:'4:00 pm',venue:'stetson',type:'rodeo'},
+  {t:'Closing sets in the garden',d:'Last call for live music in the Hops & Vines.',day:'mon',time:'5:00 pm',venue:'hops',type:'music'},
+];
+
+/* render venue cards from the model */
+const venuesEl=document.getElementById('venues');
+Object.entries(VENUES).forEach(([id,v])=>{
+  const n=ENTRIES.filter(e=>e.venue===id).length;
+  const div=document.createElement('div');
+  div.className='venue rv';
+  div.innerHTML='<h3>'+v.name+'</h3><p>'+v.blurb+'</p>'
+    +'<span class="vt '+(v.ticket?'req':'free')+'">'+(v.ticket?'Ticketed venue':'Included with entry')+'</span>'
+    +'<div class="vcount">'+n+' scheduled item'+(n===1?'':'s')+'</div>';
+  venuesEl.appendChild(div);
+});
+
+/* render schedule rows from the model */
+const schedEl=document.getElementById('sched');
+ENTRIES.forEach(e=>{
+  const li=document.createElement('li');
+  li.dataset.day=e.day; li.dataset.venue=e.venue; li.dataset.type=e.type;
+  li.innerHTML='<span class="tm">'+e.time+'<small>'+DAYS[e.day]+'</small></span>'
+    +'<div><h3>'+e.t+'</h3><p>'+e.d+'</p>'
+    +'<div class="meta"><span class="tag tag-venue">'+VENUES[e.venue].name+'</span>'
+    +'<span class="tag tag-type">'+TYPES[e.type]+'</span>'
+    +(VENUES[e.venue].ticket?'<span class="tag tag-ticket">Ticketed</span>':'')
+    +'</div></div>'
+    +'<span class="day-pill">'+DAYS[e.day]+'</span>';
+  schedEl.appendChild(li);
+});
+
+/* filtering */
+const state={day:'all',type:'all',venue:'all'};
+const chips=document.querySelectorAll('.chip'),rows=schedEl.querySelectorAll('li'),
+      countEl=document.getElementById('count'),emptyEl=document.getElementById('empty');
+function apply(){
+  let shown=0;
+  rows.forEach(r=>{
+    const ok=(state.day==='all'||r.dataset.day===state.day)
+      &&(state.type==='all'||r.dataset.type===state.type)
+      &&(state.venue==='all'||r.dataset.venue===state.venue);
+    r.hidden=!ok; if(ok)shown++;
+  });
+  countEl.textContent=shown+' of '+rows.length+' items';
+  emptyEl.style.display=shown?'none':'block';
+}
+chips.forEach(c=>c.addEventListener('click',()=>{
+  const f=c.dataset.f;
+  document.querySelectorAll('.chip[data-f="'+f+'"]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));
+  state[f]=c.dataset.v; apply();
+}));
+apply();
+
+if(window.gsap&&window.ScrollTrigger&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.registerPlugin(ScrollTrigger);
+  document.documentElement.classList.add('motion');
+  setTimeout(()=>{if(!ScrollTrigger.getAll().length)document.querySelectorAll('.rv:not(.in)').forEach(el=>el.classList.add('in'));},3000);
+  document.querySelectorAll('.page-head .rv').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),180+i*90));
+  ScrollTrigger.batch('.rv:not(.page-head .rv)',{start:'top 88%',once:true,onEnter:b=>b.forEach((el,i)=>setTimeout(()=>el.classList.add('in'),i*80))});
+}
+</script>
+</body>
+</html>

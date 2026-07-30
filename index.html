@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloverdale Rodeo &amp; Country Fair — Website Redesign Concept</title>
+<meta name="description" content="Concept redesign for cloverdalerodeo.com: an immersive, conversion-focused home for BC's biggest rodeo, country fair and music festival. Unaffiliated concept by Midnight Space.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='6' width='26' height='20' rx='3' fill='%23c1272d'/%3E%3Ctext x='16' y='21' font-family='Georgia,serif' font-weight='bold' font-size='13' fill='%23faf5ec' text-anchor='middle'%3ECR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="fetch" href="./models/model.glb" crossorigin="anonymous">
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js" integrity="sha384-Ftcjj/GNLxPvzNDftO/oryXB9aGxsGZY9JGqsXG0uUKgQDl9RfDgsx9NJ/4IVNPe" crossorigin="anonymous"></script>
+<style>
+/* ============================================================
+   CLOVERDALE RODEO & COUNTRY FAIR — CONCEPT REDESIGN
+   Follows CREA's real identity: CR red, cream, near-black.
+   Bricolage Grotesque display / Hanken Grotesk body. WCAG 2.1 AA.
+   ============================================================ */
+:root{
+  --ink:#221611; --ink-72:rgba(34,22,17,.76); --ink-56:rgba(34,22,17,.6);
+  --paper:#faf5ec; --sand:#f0e4d0;
+  --night:#1c1410; --night-ink:#f4ede2; --night-ink-70:rgba(244,237,226,.75);
+  --red:#c1272d; --red-deep:#9a1e23; --red-night:#e0555a;
+  --gold:#d99b2f;
+  --radius:999px; --container:1180px;
+  --ease:cubic-bezier(0.625,0.05,0,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Hanken Grotesk",-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:clip}
+::selection{background:var(--red);color:#fff}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 24px}
+.disp{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-weight:800;letter-spacing:-0.015em;line-height:1.02}
+.t-hero{font-size:clamp(2.9rem,7vw,5.4rem);text-transform:uppercase}
+.t-display{font-size:clamp(2rem,4.2vw,3.3rem);text-transform:uppercase;line-height:1.04}
+.t-title{font-size:clamp(1.3rem,2.2vw,1.75rem);line-height:1.12}
+.t-lead{font-size:clamp(1.08rem,1.5vw,1.26rem);color:var(--ink-72);line-height:1.55}
+.t-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.t-source{font-size:.82rem;color:var(--ink-56);line-height:1.5}
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:200;background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:6px;transition:top .2s;text-decoration:none;font-weight:600}
+.skip-link:focus{top:1rem}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.concept-note{background:var(--night);color:var(--night-ink-70);text-align:center;font-size:.8rem;padding:.45rem 1rem}
+.concept-note a{color:var(--night-ink)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,245,236,.88);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid rgba(34,22,17,.1)}
+.nav-inner{display:flex;align-items:center;gap:1.8rem;height:70px;max-width:var(--container);margin:0 auto;padding:0 24px}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand-cr{display:grid;place-items:center;width:38px;height:30px;background:var(--red);border-radius:6px;color:#fff;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.02em}
+.brand-word{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.06rem;line-height:1.05;text-transform:uppercase;letter-spacing:.01em}
+.brand-word small{display:block;font-family:"Hanken Grotesk",sans-serif;font-weight:600;font-size:.58rem;letter-spacing:.14em;color:var(--red);margin-top:2px}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links>li{display:flex;align-items:center}
+.nav-links a{color:var(--ink-72);text-decoration:none;font-size:.94rem;font-weight:600;transition:color .2s}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--ink)}
+.nav-links>li>a[aria-current="page"]{box-shadow:inset 0 -2px 0 var(--red)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:var(--radius);text-decoration:none;font-weight:700;border:none;cursor:pointer;font-family:"Hanken Grotesk",sans-serif;transition:transform .18s var(--ease),background .25s,color .25s;white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--red);color:#fff;padding:.7rem 1.5rem;font-size:.94rem}
+.btn-primary:hover{background:var(--red-deep)}
+.btn-ghost{border:2px solid rgba(34,22,17,.3);color:var(--ink);padding:.62rem 1.4rem;font-size:.94rem;background:none}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.btn-quiet{color:var(--red);background:none;padding:.5rem .2rem;font-size:.95rem}
+.btn-quiet::after{content:"→";margin-left:.15rem;transition:transform .3s var(--ease)}
+.btn-quiet:hover::after{transform:translateX(4px)}
+.btn-lg{padding:.95rem 2rem;font-size:1.02rem}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.3s var(--ease)}
+
+/* ---------- layout ---------- */
+section{scroll-margin-top:86px}
+.pad{padding:6.5rem 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+.sec-head .t-lead{max-width:30em}
+.demo-note{display:inline-block;background:var(--sand);border-radius:8px;padding:.5rem .9rem;font-size:.8rem;color:var(--ink-56);margin-top:1.2rem}
+
+.night-band{background:var(--night);color:var(--night-ink)}
+.night-band .t-eyebrow{color:var(--red-night)}
+.night-band h2,.night-band h3{color:#fff}
+.night-band p{color:var(--night-ink-70)}
+.red-band{background:var(--red);color:#fff;text-align:center}
+.red-band h2{color:#fff;max-width:22ch;margin:0 auto}
+.red-band p{color:rgba(255,255,255,.88);max-width:34em;margin:1.2rem auto 0}
+.red-band .btn{background:#fff;color:var(--red);margin-top:2rem}
+.red-band .btn:hover{background:var(--sand)}
+
+/* ---------- photography ---------- */
+.figure{border-radius:14px;overflow:hidden;position:relative}
+.figure img{display:block;width:100%;height:auto}
+.fig-cap{font-size:.78rem;color:var(--ink-56);margin-top:.55rem}
+.fig-cap a{color:inherit}
+.band{position:relative;overflow:clip}
+.band>img{display:block;width:100%;height:clamp(360px,58vh,600px);object-fit:cover}
+.band-cap{position:absolute;left:0;right:0;bottom:0;padding:5rem 0 1.6rem;background:linear-gradient(to top,rgba(20,12,8,.8),rgba(20,12,8,0));color:#fff}
+.band-cap .disp{color:#fff}
+.band-cap .t-source{color:rgba(255,255,255,.75)}
+.band-cap a{color:#fff}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.card{background:#fff;border:1px solid rgba(34,22,17,.14);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:var(--ink);transition:border-color .25s,transform .35s var(--ease)}
+.card:hover{border-color:var(--red);transform:translateY(-3px)}
+.card img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover}
+.card-body{padding:1.15rem 1.25rem 1.35rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
+.card .k{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.card h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.22rem;line-height:1.15}
+.card p{font-size:.93rem;color:var(--ink-72)}
+.card time,.card .foot{margin-top:auto;font-size:.8rem;color:var(--ink-56)}
+
+.proof{border-top:1px solid rgba(34,22,17,.12);border-bottom:1px solid rgba(34,22,17,.12);background:var(--sand)}
+.proof-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;padding:2.2rem 24px;max-width:var(--container);margin:0 auto}
+.proof b{font-family:"Bricolage Grotesque",sans-serif;font-size:2rem;font-weight:800;display:block;line-height:1.05}
+.proof span{font-size:.88rem;color:var(--ink-56)}
+
+/* ---------- footer ---------- */
+.footer{background:var(--night);color:var(--night-ink-70);padding:4.5rem 0 2.5rem}
+.footer a{color:var(--night-ink-70);text-decoration:none}
+.footer a:hover{color:var(--night-ink)}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2.5rem;max-width:var(--container);margin:0 auto;padding:0 24px}
+.footer .brand{color:var(--night-ink)}
+.footer .brand-word small{color:var(--red-night)}
+.footer h4{color:var(--night-ink);font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+.footer ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;font-size:.92rem}
+.footer-mission{margin-top:1.1rem;font-size:.92rem;max-width:28em;line-height:1.6}
+.footer-land{max-width:var(--container);margin:3rem auto 0;padding:0 24px;font-size:.85rem;color:rgba(244,237,226,.6);max-width:60em}
+.footer-legal{max-width:var(--container);margin:2rem auto 0;padding:1.8rem 24px 0;border-top:1px solid rgba(244,237,226,.14);display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-size:.8rem;color:rgba(244,237,226,.55)}
+.footer-legal a{color:rgba(244,237,226,.55)}
+
+.rv{opacity:1}
+.motion .rv{opacity:0;transform:translateY(24px)}
+.motion .rv.in{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+
+/* ---------- page-specific: hero with 3D model + countdown ---------- */
+.hero{position:relative;overflow:clip;min-height:min(92svh,880px);display:flex;align-items:center;padding:4.5rem 0 5.5rem;background:linear-gradient(to bottom,rgba(193,39,45,.06),rgba(193,39,45,0) 60%)}
+.hero-model{position:absolute;inset:0;z-index:0;pointer-events:none;display:grid;place-items:center;justify-items:end;padding-right:2vw}
+.hero-model model-viewer{width:min(58vw,680px);height:min(70vh,640px);background:transparent;outline:none;opacity:.9;pointer-events:auto;--poster-color:transparent}
+.hero-model::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 58% 52% at 30% 46%,rgba(250,245,236,.9) 0%,rgba(250,245,236,.45) 55%,rgba(250,245,236,0) 100%)}
+.hero-inner{position:relative;z-index:2;max-width:var(--container);margin:0 auto;width:100%;padding:0 24px}
+.hero-inner .t-lead{max-width:27em;margin-top:1.4rem}
+.hero h1{max-width:12ch;margin-top:1.1rem}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem}
+.count{display:flex;gap:.9rem;margin-top:2.6rem;flex-wrap:wrap}
+.count>div{background:#fff;border:1px solid rgba(34,22,17,.15);border-radius:14px;padding:.85rem 1.05rem .7rem;min-width:88px;text-align:center}
+.count b{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.9rem;display:block;line-height:1;font-variant-numeric:tabular-nums}
+.count span{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-56)}
+.sched-rows{list-style:none;border-top:1px solid rgba(244,237,226,.16)}
+.sched-rows li{display:grid;grid-template-columns:auto 1fr auto;gap:1.6rem;align-items:center;padding:1.05rem .2rem;border-bottom:1px solid rgba(244,237,226,.16);font-size:.95rem}
+.sched-rows .tm{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;min-width:5.2em}
+.sched-rows .vn{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red-night);white-space:nowrap}
+
+@media (max-width:960px){
+  .nav-links{position:absolute;top:70px;left:0;right:0;background:var(--paper);flex-direction:column;gap:0;padding:1.2rem 24px 2rem;border-bottom:1px solid rgba(34,22,17,.1);display:none;max-height:calc(100vh - 70px);overflow-y:auto}
+  .nav-links.open{display:flex}
+  .nav-links>li{display:block}
+  .nav-links>li>a{display:block;padding:.9rem 0;font-size:1.15rem;font-weight:700;color:var(--ink)}
+  .nav-toggle{display:block}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-inner{gap:.9rem;padding:0 16px}
+  .brand-word small{display:none}
+  .nav .btn-primary{padding:.6rem 1.05rem;font-size:.85rem}
+  .pad{padding:4.5rem 0}
+  .cards{grid-template-columns:1fr}
+  .proof-inner{grid-template-columns:1fr 1fr;gap:1.4rem}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .hero{min-height:0;padding:4rem 0}
+  .hero-model model-viewer{width:88vw;height:52vh;opacity:.38;pointer-events:none}
+  .hero-model{justify-items:center;padding-right:0}
+  .count>div{min-width:74px;padding:.7rem .8rem .6rem}
+  .count b{font-size:1.5rem}
+}
+@media (max-width:560px){.footer-top{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion .rv{opacity:1;transform:none}*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<p class="concept-note">Website-redesign concept by Midnight Space — not affiliated with or endorsed by the Cloverdale Rodeo and Exhibition Association · <a href="schedule.html">See the schedule concept</a></p>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="Cloverdale Rodeo and Country Fair — home">
+      <span class="brand-cr" aria-hidden="true">CR</span>
+      <span class="brand-word">Cloverdale<small>Rodeo &amp; Country Fair</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="rodeo.html">Rodeo</a></li>
+        <li><a href="fair.html">Fair &amp; Music</a></li>
+        <li><a href="schedule.html">Schedule</a></li>
+        <li><a href="plan.html">Plan your visit</a></li>
+        <li><a href="news.html">News</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary" href="plan.html#tickets">Get tickets</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO — 3D form + countdown -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-model" aria-hidden="true">
+      <model-viewer
+        id="heroModel"
+        src="./models/model.glb"
+        alt=""
+        camera-controls
+        disable-zoom
+        interaction-prompt="none"
+        camera-orbit="0deg 75deg 4.8m"
+        field-of-view="28deg"
+        exposure="1.0"
+        shadow-intensity="0"
+        tone-mapping="reinhard"
+        environment-image="legacy"
+      ></model-viewer>
+    </div>
+    <div class="hero-inner">
+      <p class="t-eyebrow rv">Victoria Day long weekend · May 20 – 24, 2027 · Cloverdale Fairgrounds, Surrey BC</p>
+      <h1 class="disp t-hero rv" id="hero-h">An original kind of country.</h1>
+      <p class="t-lead rv">Five days. BC's biggest professional rodeo, one of Canada's oldest country fairs, and 100+ artists across seven stages — all on one fairgrounds.</p>
+      <div class="hero-cta rv">
+        <a class="btn btn-primary btn-lg" href="plan.html#tickets">Get tickets</a>
+        <a class="btn btn-ghost btn-lg" href="schedule.html">Explore the schedule</a>
+      </div>
+      <div class="count rv" role="timer" aria-label="Countdown to gates open">
+        <div><b id="cd-d">–</b><span>Days</span></div>
+        <div><b id="cd-h">–</b><span>Hours</span></div>
+        <div><b id="cd-m">–</b><span>Minutes</span></div>
+        <div><b id="cd-s">–</b><span>Seconds</span></div>
+      </div>
+      <p class="t-source rv" style="margin-top:1rem">Until the gates open. 2027 dates shown follow the event's Victoria Day pattern.</p>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <div class="proof" role="group" aria-label="The event in numbers">
+    <div class="proof-inner">
+      <div class="rv"><b>80,000+</b><span>attendees every year</span></div>
+      <div class="rv"><b>$300,000</b><span>professional rodeo purse</span></div>
+      <div class="rv"><b>100+</b><span>artists across seven stages</span></div>
+      <div class="rv"><b>400+</b><span>volunteers behind it all</span></div>
+    </div>
+  </div>
+
+  <!-- FULL-BLEED ROD EO BAND -->
+  <div class="band">
+    <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/LV52917-scaled.jpg" alt="A bareback rider clings on as his bronc leaps clear of the ground in front of a packed grandstand" width="2560" height="1707" fetchpriority="high" decoding="async">
+    <div class="band-cap">
+      <div class="wrap">
+        <p class="disp t-title">96 of the world's best. One Stetson Bowl.</p>
+        <p class="t-source">Photo: © <a href="https://cloverdalerodeo.com/">Cloverdale Rodeo and Exhibition Association</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILLARS -->
+  <section class="pad" aria-labelledby="pillars-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="t-eyebrow rv">Three events in one</p>
+          <h2 class="disp t-display rv" id="pillars-h">Pick your kind of country.</h2>
+        </div>
+        <p class="t-lead rv">Rodeo, fair, or front row at the Longhorn — every audience gets its own way in, and its own way around.</p>
+      </div>
+      <div class="cards">
+        <a class="card rv" href="rodeo.html">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/LV59768-1024x683.jpg" alt="A bull rider bursts from the gate at the Jamie Rogers Arena, bull mid-buck" width="1024" height="683" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">The Rodeo</span>
+            <h3>BC's biggest professional rodeo</h3>
+            <p>Bareback, Saddle Bronc, Bull Riding and Ladies Barrel Racing — $300,000 on the line in the Stetson Bowl.</p>
+            <span class="foot">Explore the rodeo →</span>
+          </div>
+        </a>
+        <a class="card rv" href="fair.html">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/CRCF-2026-Global-FMX-JBP27794-4x3-1-768x1024.jpeg" alt="A freestyle motocross rider silhouetted high above the ramp against the evening sky" width="768" height="1024" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">The Country Fair</span>
+            <h3>One of Canada's oldest fairs</h3>
+            <p>Midway rides, 40+ food trucks, agriculture, the Indigenous Village, FMX and family shows since 1888.</p>
+            <span class="foot">Explore the fair →</span>
+          </div>
+        </a>
+        <a class="card rv" href="fair.html#music">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/CRCF-2026-Main-Stage-Strumbellas-JBP29183_crop-1024x683.jpeg" alt="The CR Main Stage lit purple at dusk, crowd stretching into the dark" width="1024" height="683" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">The Music</span>
+            <h3>A festival unto itself</h3>
+            <p>100+ artists on seven stages, from the CR Main Stage to the legendary Longhorn Saloon.</p>
+            <span class="foot">Explore the music →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE TEASER -->
+  <section class="night-band pad" aria-labelledby="sched-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="t-eyebrow rv">One schedule, every stage</p>
+          <h2 class="disp t-display rv" id="sched-h">Plan your whole day in one place.</h2>
+        </div>
+        <p class="t-lead rv" style="color:var(--night-ink-70)">Every artist, attraction and rodeo performance lives in one filterable schedule — by day, by venue, by what you're into.</p>
+      </div>
+      <ul class="sched-rows rv">
+        <li><span class="tm">1:00 pm</span><span>Rodeo Performance — Roughstock &amp; Barrel Racing</span><span class="vn">Stetson Bowl</span></li>
+        <li><span class="tm">6:30 pm</span><span>Headline show — country's next big name</span><span class="vn">CR Main Stage</span></li>
+        <li><span class="tm">9:00 pm</span><span>Late night at the Longhorn</span><span class="vn">Longhorn Saloon</span></li>
+      </ul>
+      <div style="margin-top:2rem" class="rv">
+        <a class="btn btn-primary btn-lg" href="schedule.html">Open the full schedule</a>
+      </div>
+      <p class="t-source rv" style="color:rgba(244,237,226,.55);margin-top:1.2rem">Representative entries — in the build, one central data model for artists, attractions and venues powers this schedule, every performer page, and every venue listing.</p>
+    </div>
+  </section>
+
+  <!-- NEWS TEASER -->
+  <section class="pad" aria-labelledby="news-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="t-eyebrow rv">News &amp; stories</p>
+          <h2 class="disp t-display rv" id="news-h">Fresh from the fairgrounds.</h2>
+        </div>
+        <a class="btn btn-quiet rv" href="news.html">All news</a>
+      </div>
+      <div class="cards">
+        <a class="card rv" href="news.html">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/LV59919-1024x683.jpg" alt="A rodeo champion raises a $25,000 winner's cheque under the Jamie Rogers Arena banner" width="1024" height="683" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">Rodeo</span>
+            <h3>Champions crowned in the Stetson Bowl</h3>
+            <p>Four events, four champions, and $300,000 awarded on the Victoria Day long weekend.</p>
+            <time datetime="2026-05-18">18 May 2026</time>
+          </div>
+        </a>
+        <a class="card rv" href="news.html">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/CRCF-2026-Drone-Show-Yeehaw-Edited_cropped-768x1024.jpg" alt="A drone show spells YEEHAW in lights above the Hops and Vines garden stage" width="768" height="1024" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">Fair</span>
+            <h3>The night the sky said yeehaw</h3>
+            <p>A drone show over the Hops &amp; Vines garden capped five days of an original kind of country.</p>
+            <time datetime="2026-05-17">17 May 2026</time>
+          </div>
+        </a>
+        <a class="card rv" href="news.html">
+          <img src="https://cloverdalerodeo.com/wp-content/uploads/2026/05/CRCF-2026-Crowd-at-the-Longhorn-JBP20038-1024x683.jpeg" alt="Hands in the air in the blue-lit crowd at the Longhorn Saloon" width="1024" height="683" loading="lazy" decoding="async">
+          <div class="card-body">
+            <span class="k">Music</span>
+            <h3>Seven stages, five days, 100+ artists</h3>
+            <p>From arena headliners to garden-stage discoveries — the music recap from May 2026.</p>
+            <time datetime="2026-05-16">16 May 2026</time>
+          </div>
+        </a>
+      </div>
+      <p class="t-source rv" style="margin-top:1.2rem">Representative stories drawn from the May 2026 event — shown here to illustrate the refreshed newsroom.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="red-band pad" aria-labelledby="cta-h">
+    <div class="wrap">
+      <p class="t-eyebrow rv" style="color:rgba(255,255,255,.85)">May 20 – 24, 2027</p>
+      <h2 class="disp t-display rv" id="cta-h">Be there when the gates open.</h2>
+      <p class="rv">Tickets connect straight through to Showpass — one tap from any page, on any device.</p>
+      <a class="btn btn-lg rv" href="plan.html#tickets">Get tickets</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <a class="brand" href="index.html" aria-label="Cloverdale Rodeo and Country Fair — home">
+        <span class="brand-cr" aria-hidden="true">CR</span>
+        <span class="brand-word">Cloverdale<small>Rodeo &amp; Country Fair</small></span>
+      </a>
+      <p class="footer-mission">The Cloverdale Rodeo and Exhibition Association — a volunteer-run non-profit delivering an original kind of country since 1888.</p>
+    </div>
+    <nav aria-label="Explore"><h4>Explore</h4><ul><li><a href="rodeo.html">Rodeo</a></li><li><a href="fair.html">Fair &amp; Music</a></li><li><a href="schedule.html">Schedule</a></li><li><a href="news.html">News</a></li></ul></nav>
+    <nav aria-label="Plan"><h4>Plan</h4><ul><li><a href="plan.html">Plan your visit</a></li><li><a href="plan.html#tickets">Tickets</a></li><li><a href="plan.html#faq">FAQs</a></li><li><a href="plan.html#getting-here">Getting here</a></li></ul></nav>
+    <nav aria-label="More"><h4>More</h4><ul><li><a href="news.html#get-involved">Volunteer</a></li><li><a href="news.html#get-involved">Sponsorship</a></li><li><a href="credits.html">Image credits</a></li></ul></nav>
+  </div>
+  <p class="footer-land">The Cloverdale Fairgrounds sit on the unceded traditional territory of the Semiahmoo, Katzie, and Kwantlen First Nations.</p>
+  <div class="footer-legal">
+    <p>© 2026 Cloverdale Rodeo and Exhibition Association · Est. 1888 · Cloverdale Fairgrounds, Surrey, BC</p>
+    <p>Concept by <a href="https://midnightspaceconsultancy.com">Midnight Space</a> — not affiliated with or endorsed by CREA.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
+<script>
+const toggle=document.querySelector('.nav-toggle'),links=document.getElementById('nav-links');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(o));});
+links.addEventListener('click',e=>{if(e.target.closest('a')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus();}});
+
+/* countdown to gates open — Thu May 20, 2027, 10:00 PT */
+(function(){
+  const target=new Date('2027-05-20T10:00:00-07:00').getTime();
+  const D=document.getElementById('cd-d'),H=document.getElementById('cd-h'),M=document.getElementById('cd-m'),S=document.getElementById('cd-s');
+  function tick(){
+    const now=Date.now(); let dt=Math.max(0,target-now);
+    const d=Math.floor(dt/864e5); dt-=d*864e5;
+    const h=Math.floor(dt/36e5); dt-=h*36e5;
+    const m=Math.floor(dt/6e4); dt-=m*6e4;
+    const s=Math.floor(dt/1e3);
+    D.textContent=d; H.textContent=String(h).padStart(2,'0');
+    M.textContent=String(m).padStart(2,'0'); S.textContent=String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+})();
+
+if(window.gsap&&window.ScrollTrigger&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.registerPlugin(ScrollTrigger);
+  document.documentElement.classList.add('motion');
+  setTimeout(()=>{if(!ScrollTrigger.getAll().length)document.querySelectorAll('.rv:not(.in)').forEach(el=>el.classList.add('in'));},3000);
+  document.querySelectorAll('.hero .rv').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),180+i*90));
+  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 88%',once:true,onEnter:b=>b.forEach((el,i)=>setTimeout(()=>el.classList.add('in'),i*80))});
+
+  document.querySelectorAll('.proof b').forEach(el=>{
+    const m=el.textContent.trim().match(/^\$?([\d,]+)(.*)$/); if(!m)return;
+    const prefix=el.textContent.trim().startsWith('$')?'$':'';
+    const target=parseInt(m[1].replace(/,/g,''),10),suffix=m[2],obj={v:0};
+    gsap.to(obj,{v:target,duration:1.6,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 92%',once:true},
+      onUpdate(){el.textContent=prefix+Math.round(obj.v).toLocaleString('en-CA')+suffix;}});
+  });
+
+  document.querySelectorAll('.band').forEach(b=>{
+    const img=b.querySelector('img'); if(!img)return;
+    gsap.fromTo(img,{yPercent:-7,scale:1.14},{yPercent:7,scale:1.14,ease:'none',
+      scrollTrigger:{trigger:b,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+}
+</script>
+<script type="module">
+/* Hero 3D form — the Midnight Space studio object, regraded from electric
+   blue to rodeo gold. Decorative: fails silently to the plain paper hero. */
+const mv=document.getElementById('heroModel');
+if(mv){
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    mv.setAttribute('auto-rotate','');
+    mv.setAttribute('rotation-per-second','9deg');
+  }
+  mv.addEventListener('load',()=>{
+    try{
+      const model=mv.model;
+      [...model.materials].forEach(mat=>{
+        mat.pbrMetallicRoughness.setBaseColorFactor([0.85,0.56,0.16,0.34]);
+        mat.pbrMetallicRoughness.setMetallicFactor(0.08);
+        mat.pbrMetallicRoughness.setRoughnessFactor(0.12);
+        mat.setEmissiveFactor([0.58,0.34,0.08]);
+        if(mat.setEmissiveStrength)mat.setEmissiveStrength(1.5);
+        if(mat.setAlphaMode)mat.setAlphaMode('BLEND');
+        if(mat.setDoubleSided)mat.setDoubleSided(true);
+      });
+    }catch(e){console.warn('hero model regrade skipped:',e&&e.message);}
+  });
+}
+</script>
+</body>
+</html>
