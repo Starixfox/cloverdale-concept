@@ -9,8 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="fetch" href="./models/model.glb" crossorigin="anonymous">
-<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js" integrity="sha384-Ftcjj/GNLxPvzNDftO/oryXB9aGxsGZY9JGqsXG0uUKgQDl9RfDgsx9NJ/4IVNPe" crossorigin="anonymous"></script>
 <style>
 /* ============================================================
    CLOVERDALE RODEO & COUNTRY FAIR — CONCEPT REDESIGN
@@ -133,12 +131,15 @@ section{scroll-margin-top:86px}
 .motion .rv{opacity:0;transform:translateY(24px)}
 .motion .rv.in{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
 
-/* ---------- page-specific: hero with 3D model + countdown ---------- */
+/* ---------- page-specific: shader hero + countdown ---------- */
 .hero{position:relative;overflow:clip;min-height:min(92svh,880px);display:flex;align-items:center;padding:4.5rem 0 5.5rem;background:linear-gradient(to bottom,rgba(193,39,45,.06),rgba(193,39,45,0) 60%)}
-.hero-model{position:absolute;inset:0;z-index:0;pointer-events:none;display:grid;place-items:center;justify-items:end;padding-right:2vw}
-.hero-model model-viewer{width:min(58vw,680px);height:min(70vh,640px);background:transparent;outline:none;opacity:.9;pointer-events:auto;--poster-color:transparent}
-.hero-model::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 58% 52% at 30% 46%,rgba(250,245,236,.9) 0%,rgba(250,245,236,.45) 55%,rgba(250,245,236,0) 100%)}
+/* shader island — sits behind the content; paper bg is the permanent fallback */
+.hero-shader{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-shader canvas{width:100%!important;height:100%!important}
+.hero-shader::after{ /* soft vignette so display type always sits on quiet ground */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 62% 54% at 32% 44%,rgba(250,245,236,.88) 0%,rgba(250,245,236,.42) 55%,rgba(250,245,236,.05) 100%),
+             linear-gradient(to bottom,rgba(250,245,236,.2),rgba(250,245,236,.55) 92%)}
 .hero-inner{position:relative;z-index:2;max-width:var(--container);margin:0 auto;width:100%;padding:0 24px}
 .hero-inner .t-lead{max-width:27em;margin-top:1.4rem}
 .hero h1{max-width:12ch;margin-top:1.1rem}
@@ -169,8 +170,6 @@ section{scroll-margin-top:86px}
   .proof-inner{grid-template-columns:1fr 1fr;gap:1.4rem}
   .footer-top{grid-template-columns:1fr 1fr}
   .hero{min-height:0;padding:4rem 0}
-  .hero-model model-viewer{width:88vw;height:52vh;opacity:.38;pointer-events:none}
-  .hero-model{justify-items:center;padding-right:0}
   .count>div{min-width:74px;padding:.7rem .8rem .6rem}
   .count b{font-size:1.5rem}
 }
@@ -205,22 +204,7 @@ section{scroll-margin-top:86px}
 <main id="main">
   <!-- HERO — 3D form + countdown -->
   <section class="hero" aria-labelledby="hero-h">
-    <div class="hero-model" aria-hidden="true">
-      <model-viewer
-        id="heroModel"
-        src="./models/model.glb"
-        alt=""
-        camera-controls
-        disable-zoom
-        interaction-prompt="none"
-        camera-orbit="0deg 75deg 4.8m"
-        field-of-view="28deg"
-        exposure="1.0"
-        shadow-intensity="0"
-        tone-mapping="reinhard"
-        environment-image="legacy"
-      ></model-viewer>
-    </div>
+    <div class="hero-shader" id="hero-shader" aria-hidden="true"></div>
     <div class="hero-inner">
       <p class="t-eyebrow rv">Victoria Day long weekend · May 20 – 24, 2027 · Cloverdale Fairgrounds, Surrey BC</p>
       <h1 class="disp t-hero rv" id="hero-h">An original kind of country.</h1>
@@ -446,28 +430,49 @@ if(window.gsap&&window.ScrollTrigger&&!matchMedia('(prefers-reduced-motion: redu
 }
 </script>
 <script type="module">
-/* Hero 3D form — the Midnight Space studio object, regraded from electric
-   blue to rodeo gold. Decorative: fails silently to the plain paper hero. */
-const mv=document.getElementById('heroModel');
-if(mv){
-  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
-    mv.setAttribute('auto-rotate','');
-    mv.setAttribute('rotation-per-second','9deg');
-  }
-  mv.addEventListener('load',()=>{
-    try{
-      const model=mv.model;
-      [...model.materials].forEach(mat=>{
-        mat.pbrMetallicRoughness.setBaseColorFactor([0.85,0.56,0.16,0.34]);
-        mat.pbrMetallicRoughness.setMetallicFactor(0.08);
-        mat.pbrMetallicRoughness.setRoughnessFactor(0.12);
-        mat.setEmissiveFactor([0.58,0.34,0.08]);
-        if(mat.setEmissiveStrength)mat.setEmissiveStrength(1.5);
-        if(mat.setAlphaMode)mat.setAlphaMode('BLEND');
-        if(mat.setDoubleSided)mat.setDoubleSided(true);
-      });
-    }catch(e){console.warn('hero model regrade skipped:',e&&e.message);}
-  });
+/* Hero shader background — the Axion Studio preset from the NM Voices concept
+   (Swirl → ChromaFlow → FlutedGlass → FilmGrain, `shaders` package),
+   regraded to Cloverdale's CR red on cream.
+   Pure enhancement: any failure leaves the plain paper hero. */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const mountShader = async () => {
+    const host = document.getElementById('hero-shader');
+    if (!host) return;
+    try {
+      const [{ default: React }, { createRoot }, S] = await Promise.all([
+        import('https://esm.sh/react@18.3.1'),
+        import('https://esm.sh/react-dom@18.3.1/client'),
+        import('https://esm.sh/shaders@2.5.124/react?deps=react@18.3.1,react-dom@18.3.1'),
+      ]);
+      const e = React.createElement;
+      const stage = document.createElement('div');
+      stage.style.cssText = 'position:absolute;inset:0';
+      host.prepend(stage); /* behind the ::after vignette */
+      createRoot(stage).render(
+        e(S.Shader, { style: { width: '100%', height: '100%' } },
+          e(S.Swirl, { colorA: '#faf5ec', colorB: '#ede3cf', detail: 1.7 }),
+          e(S.ChromaFlow, {
+            baseColor: '#faf5ec',
+            downColor: '#c1272d', leftColor: '#c1272d',
+            rightColor: '#c1272d', upColor: '#c1272d',
+            momentum: 13, radius: 3.5,
+          }),
+          e(S.FlutedGlass, {
+            aberration: 0.61, angle: 31, frequency: 8,
+            highlight: 0.12, highlightSoftness: 0, lightAngle: -90,
+            refraction: 4, shape: 'rounded', softness: 1, speed: 0.15,
+          }),
+          e(S.FilmGrain, { strength: 0.05 })
+        )
+      );
+    } catch (err) {
+      /* CDN blocked or no WebGPU/WebGL — static background stands */
+      console.warn('hero shader skipped:', err && err.message);
+    }
+  };
+  /* don't compete with the LCP — mount after load settles */
+  if (document.readyState === 'complete') setTimeout(mountShader, 300);
+  else window.addEventListener('load', () => setTimeout(mountShader, 300), { once: true });
 }
 </script>
 </body>
